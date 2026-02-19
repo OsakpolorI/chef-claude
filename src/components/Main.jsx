@@ -11,7 +11,13 @@ export default function Main() {
     const [recipe, setRecipe] = useState("")
 
     async function getRecipe() {
-        const recipeMarkdown = await getRecipeFromChefClaude(ingredients)
+        let recipeMarkdown;
+        try {
+            recipeMarkdown = await getRecipeFromChefClaude(ingredients)
+        } catch(error) {
+            recipeMarkdown = "# Example Text"
+            console.log(error)
+        }
         setRecipe(recipeMarkdown)
     }
 
@@ -38,7 +44,7 @@ export default function Main() {
                     getRecipe={getRecipe}
                 />
             }
-            {recipe != "" && <ClaudeRecipe />}
+            {recipe != "" && <ClaudeRecipe recipe={recipe}/>}
         </main>
     )
 }
